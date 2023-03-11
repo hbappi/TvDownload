@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/margin10"
+    android:layout_marginTop="@dimen/margin5">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_edittext"
+        android:layout_margin="5dp">
+
+
+
+        <TextView
+            android:id="@+id/txtid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text=""/>
+
+        <ImageView
+            android:id="@+id/imgapp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="3dp"
+            android:visibility="visible"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="10dp"
+            android:src="@drawable/ic_launcher_foreground"
+            android:layout_toRightOf="@+id/txtid"/>
+
+
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imgapp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/white"
+            android:layout_marginRight="@dimen/margin60"
+            android:paddingHorizontal="10dp"
+            android:paddingTop="@dimen/margin5"
+            android:paddingBottom="@dimen/margin5"
+            android:background="@drawable/rounded_edittextg"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:text="Code"/>
+
+        <ImageView
+            android:id="@+id/check_box"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="3dp"
+            android:visibility="visible"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
+            android:src="@drawable/ic_check"
+            android:layout_alignParentRight="true"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="340dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_install"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin60"
+        android:layout_marginHorizontal="@dimen/margin20"
+        android:text="INSTALL"/>
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin60"
+        android:layout_marginHorizontal="@dimen/margin20"
+        android:text="DELETE"/>
+    <Button
+        android:id="@+id/btn_close"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin60"
+        android:layout_marginHorizontal="@dimen/margin20"
+        android:text="CLOSE"/>
+
+</LinearLayout>

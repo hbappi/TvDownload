@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/my_drawer_layout"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:id="@+id/relcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="@dimen/margin10"
+            android:layout_marginHorizontal="@dimen/margin20"
+            android:background="@drawable/rounded_edittextg">
+            <EditText
+                android:id="@+id/edtcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin3"
+                android:paddingHorizontal="@dimen/margin5"
+                android:paddingVertical="@dimen/margin30"
+                android:maxLength="6"
+                android:background="@drawable/rounded_edittext"
+                android:hint="Code" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/reldownload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginVertical="@dimen/margin10"
+            android:layout_marginHorizontal="@dimen/margin20"
+            android:background="@drawable/rounded_edittextg">
+            <Button
+                android:id="@+id/btndownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin3"
+                android:layout_marginStart="@dimen/margin5"
+                android:layout_marginTop="@dimen/margin5"
+                android:layout_marginEnd="@dimen/margin5"
+                android:layout_marginBottom="@dimen/margin5"
+                android:background="@drawable/rounded_edittextb"
+                android:drawableTop="@drawable/downloadcl"
+                android:drawablePadding="@dimen/margin10"
+                android:padding="@dimen/margin10"
+                android:insetTop="@dimen/margin0"
+                android:insetBottom="@dimen/margin0"
+                android:minWidth="@dimen/margin0"
+                android:minHeight="@dimen/margin0"
+                android:text="Download File"
+                android:textSize="18sp"
+                android:textAllCaps="false" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relfileexplorer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginVertical="@dimen/margin10"
+            android:layout_marginHorizontal="@dimen/margin20"
+            android:background="@drawable/rounded_edittextg">
+            <Button
+                android:id="@+id/btnfileexplorer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:drawablePadding="@dimen/margin10"
+                android:padding="@dimen/margin10"
+                android:minHeight="@dimen/margin0"
+                android:minWidth="@dimen/margin0"
+                android:insetTop="@dimen/margin0"
+                android:insetBottom="@dimen/margin0"
+                android:background="@drawable/rounded_edittextb"
+                android:layout_margin="@dimen/margin3"
+                android:drawableTop="@drawable/downloadcl"
+                android:textSize="18sp"
+                android:text="File Explorer"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/relhelp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginVertical="@dimen/margin10"
+            android:layout_marginHorizontal="@dimen/margin20"
+            android:background="@drawable/rounded_edittextg">
+            <Button
+                android:id="@+id/btnhelp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin3"
+                android:layout_marginStart="@dimen/margin5"
+                android:layout_marginTop="@dimen/margin5"
+                android:layout_marginEnd="@dimen/margin5"
+                android:layout_marginBottom="@dimen/margin5"
+                android:background="@drawable/rounded_edittextb"
+                android:drawableTop="@drawable/downloadcl"
+                android:drawablePadding="@dimen/margin10"
+                android:padding="@dimen/margin10"
+                android:insetTop="@dimen/margin0"
+                android:insetBottom="@dimen/margin0"
+                android:minWidth="@dimen/margin0"
+                android:minHeight="@dimen/margin0"
+                android:text="Help"
+                android:textSize="18sp"
+                android:textAllCaps="false" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relprivacy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginVertical="@dimen/margin10"
+            android:layout_marginHorizontal="@dimen/margin20"
+            android:background="@drawable/rounded_edittextg">
+            <Button
+                android:id="@+id/btnprivacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:drawablePadding="@dimen/margin10"
+                android:padding="@dimen/margin10"
+                android:minHeight="@dimen/margin0"
+                android:minWidth="@dimen/margin0"
+                android:insetTop="@dimen/margin0"
+                android:insetBottom="@dimen/margin0"
+                android:background="@drawable/rounded_edittextb"
+                android:layout_margin="@dimen/margin3"
+                android:drawableTop="@drawable/privacypolicyw"
+                android:textSize="18sp"
+                android:text="Privacy"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:id="@+id/nav_menu"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>
