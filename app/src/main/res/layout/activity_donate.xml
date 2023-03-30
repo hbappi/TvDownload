@@ -8,34 +8,27 @@
     android:orientation="vertical"
     tools:context=".DonateActivity">
 
-    <ScrollView
+    <!--    <ScrollView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/imgdonate"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:minHeight="70dp"
+            android:layout_marginBottom="@dimen/margin20"
+            android:scaleType="fitXY"
+            android:layout_gravity="center_horizontal"/>
 
 
-            <TextView
-                android:id="@+id/txthead"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin20"
-                android:text="Donate"
-                android:textColor="@color/black"
-                android:layout_gravity="center_horizontal"/>
 
-            <TextView
-                android:id="@+id/txtbody"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin20"
-                android:text="Loading ..."
-                android:textColor="@color/black"
-                android:layout_gravity="center_horizontal"/>
-
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
+    <!--    </ScrollView>-->
 
 </LinearLayout>

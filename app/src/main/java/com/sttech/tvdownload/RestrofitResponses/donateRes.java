@@ -4,28 +4,17 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class donateRes {
-    @SerializedName("id")
+
+    @SerializedName("donate_image")
     @Expose
-    private Integer id;
-    @SerializedName("donate")
-    @Expose
-    private String donate;
+    private String donateImage;
 
-    public Integer getId() {
-        return id;
+    public String getDonateImage() {
+        return donateImage;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDonateImage(String donateImage) {
+        this.donateImage = donateImage;
     }
-
-    public String getDonate() {
-        return donate;
-    }
-
-    public void setDonate(String donate) {
-        this.donate = donate;
-    }
-
 
 }

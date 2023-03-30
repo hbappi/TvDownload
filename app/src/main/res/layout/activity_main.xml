@@ -40,6 +40,7 @@
                         android:paddingHorizontal="@dimen/margin5"
                         android:paddingVertical="@dimen/margin20"
                         android:maxLength="6"
+                        android:textColor="@color/black"
                         android:background="@drawable/rounded_edittext"
                         android:hint="Code" />
             </RelativeLayout>

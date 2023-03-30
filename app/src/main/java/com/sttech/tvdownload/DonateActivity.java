@@ -2,13 +2,20 @@ package com.sttech.tvdownload;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.sttech.tvdownload.API.API;
 import com.sttech.tvdownload.API.ApiUtils;
 import com.sttech.tvdownload.RestrofitResponses.contactRes;
@@ -22,8 +29,9 @@ import retrofit2.Callback;
 public class DonateActivity extends AppCompatActivity {
 
     API api;
-    TextView txthead;
-    TextView txtbody;
+//    WebView txthead;
+//    TextView txtbody;
+    ImageView imgdonate;
 
 
     @Override
@@ -34,42 +42,63 @@ public class DonateActivity extends AppCompatActivity {
 
 
 
-        txthead=findViewById(R.id.txthead);
-        txtbody=findViewById(R.id.txtbody);
+        imgdonate=findViewById(R.id.imgdonate);
+//        txthead=findViewById(R.id.txthead);
+//        txtbody=findViewById(R.id.txtbody);
         api = ApiUtils.getAPI();
 
+        Glide.with(DonateActivity.this)
+                .load("https://mctv.banttechenergies.com/admin_assets/images/donate.png")
+                .placeholder(R.drawable.loading)
+                .error(R.drawable.loading)
+                .into(imgdonate);
+
         GetDataApi();
+
+        imgdonate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent shareintent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/3khAOs9"));
+//                startActivity(shareintent);
+            }
+        });
 
     }
 
 
     public void GetDataApi() {
-        Call<List<donateRes>> call = api.DONATE_RES_CALL("1");
-        call.enqueue(new Callback<List<donateRes>>() {
+        Call<donateRes> call = api.DONATE_RES_CALL("1");
+        call.enqueue(new Callback<donateRes>() {
             @Override
-            public void onResponse(Call<List<donateRes>> call, retrofit2.Response<List<donateRes>> response) {
+            public void onResponse(Call<donateRes> call, retrofit2.Response<donateRes> response) {
                 Log.e("api ", "\n"+response.toString());
                 if (response.isSuccessful()) {
 
-                    List<donateRes> userdata = response.body();
+                    donateRes userdata = response.body();
                     try {
 
                         if(userdata!=null) {
 
-                            if (userdata.size() != 0) {
+                            if (userdata != null) {
 
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                                    txthead.setText(Html.fromHtml(userdata.get(0).getPrivacyPolicyEnglish(), Html.FROM_HTML_MODE_COMPACT));
-                                    txtbody.setText(Html.fromHtml(userdata.get(0).getDonate(), Html.FROM_HTML_MODE_COMPACT));
-                                } else {
-//                                    txthead.setText(Html.fromHtml(userdata.get(0).getPrivacyPolicyEnglish()));
-                                    txtbody.setText(Html.fromHtml(userdata.get(0).getDonate()));
-                                }
+//                                Glide.with(DonateActivity.this)
+//                                        .load("https://"+userdata.getDonateImage())
+//                                        .placeholder(R.drawable.loading)
+//                                        .into(imgdonate);
+                                Picasso.get().load("https://"+userdata.getDonateImage()).into(imgdonate);
+//                                txthead.loadData(userdata.get(0).getDonate(), "text/html", "UTF-8");
+//                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+////                                    txthead.setText(Html.fromHtml(userdata.get(0).getPrivacyPolicyEnglish(), Html.FROM_HTML_MODE_COMPACT));
+//                                    txtbody.setText(Html.fromHtml(userdata.get(0).getDonate(), Html.FROM_HTML_MODE_COMPACT));
+//                                } else {
+////                                    txthead.setText(Html.fromHtml(userdata.get(0).getPrivacyPolicyEnglish()));
+//                                    txtbody.setText(Html.fromHtml(userdata.get(0).getDonate()));
+//                                }
 
                             }
 
                         } else {
-                            txthead.setText("Not Found");
+                            Toast.makeText(DonateActivity.this, "Not Found", Toast.LENGTH_SHORT).show();
                         }
 
                     }catch (Exception e){}
@@ -81,7 +110,7 @@ public class DonateActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<donateRes>> call, Throwable t) {
+            public void onFailure(Call<donateRes> call, Throwable t) {
                 Toast.makeText(DonateActivity.this, "Error", Toast.LENGTH_LONG).show();
             }
         });

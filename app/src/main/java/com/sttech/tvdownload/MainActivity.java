@@ -3,6 +3,7 @@ package com.sttech.tvdownload;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
@@ -28,6 +29,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
     public DrawerLayout drawerLayout;
     public NavigationView nav_menu;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+    boolean codeok=false;
+    boolean downloadfocus=false;
+    boolean fileexplorerfocus=false;
+    boolean helpfocus=false;
+    boolean privacyfocus=false;
+    boolean codefocus=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,9 +108,17 @@ public class MainActivity extends AppCompatActivity {
         relprivacy=findViewById(R.id.relprivacy);
 
         btndownload=findViewById(R.id.btndownload);
+        btndownload.setFocusable(true);
+//        btndownload.setFocusableInTouchMode(true);
         btnfileexplorer=findViewById(R.id.btnfileexplorer);
+        btnfileexplorer.setFocusable(true);
+//        btnfileexplorer.setFocusableInTouchMode(true);
         btnhelp=findViewById(R.id.btnhelp);
+        btnhelp.setFocusable(true);
+//        btnhelp.setFocusableInTouchMode(true);
         btnprivacy=findViewById(R.id.btnprivacy);
+        btnprivacy.setFocusable(true);
+//        btnprivacy.setFocusableInTouchMode(true);
 
         btnfileexplorer.setEnabled(false);
 
@@ -112,12 +128,14 @@ public class MainActivity extends AppCompatActivity {
             }
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 //                Toast.makeText(MainActivity.this, s+" "+start+" "+count, Toast.LENGTH_SHORT).show();
+                codeok=false;
                 if(s.length()>=6) {
                     relcode.setBackgroundResource(R.drawable.rounded_edittexto);
                     GetDataApi(s.toString());
                 }else {
                     relcode.setBackgroundResource(R.drawable.rounded_edittextg);
                     reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
+                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
                     focus=0;
                     url=null;
                 }
@@ -167,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
         btnhelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(MainActivity.this,HelpActivity.class);
                 startActivity(intent);
             }
@@ -178,6 +197,8 @@ public class MainActivity extends AppCompatActivity {
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setCancelable(true);
 
+
+        edtcode.requestFocus();
     }
 
     @Override
@@ -219,9 +240,15 @@ public class MainActivity extends AppCompatActivity {
                           relcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
                           reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
                           url = "" + userdata.get(0).getUrl();
+                          if(!url.contains("https://")){
+                              url="https://"+url;
+                          }
                           focus=1;
+                          codeok=true;
                           hideKeyboard(MainActivity.this);
+                          relcode.clearFocus();
                           btndownload.requestFocus();
+//                          btnfileexplorer.setEnabled(false);
 //                          Toast.makeText(MainActivity.this, "" + userdata.get(0).getUrl(), Toast.LENGTH_SHORT).show();
                       } else {
                           relcode.setBackgroundResource(R.drawable.rounded_edittextred);
@@ -259,124 +286,407 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.d("debug", "we are here");
-        Toast.makeText(this, ""+keyCode, Toast.LENGTH_SHORT).show();
+//        Log.d("debug", "we are here");
+//        if(keyCode==24){
+//            keyCode=19;
+//        }else if(keyCode==25){
+//            keyCode=20;
+//        }else if(keyCode==3){
+//            keyCode=21;
+//        }else if(keyCode==4){
+//            keyCode=22;
+//        }
+//        Toast.makeText(this, ""+keyCode, Toast.LENGTH_SHORT).show();
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
-                if(reldownload.hasFocus()){
+
+                if(btndownload.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_UP", " 1");
+                    downloadfocus=false; codefocus=true;
+                    btndownload.clearFocus();
                     edtcode.requestFocus();
                     reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
-                    edtcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
-                }else if(relfileexplorer.hasFocus()){
-                    reldownload.requestFocus();
+                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
+                    relcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                }else if(btnfileexplorer.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_UP", " 2");
+                    fileexplorerfocus=false; downloadfocus=true;
+                    btnfileexplorer.clearFocus();
+                    btndownload.requestFocus();
                     relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
                     reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
-                }else if(relhelp.hasFocus()){
+                }else if(btnhelp.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_UP", " 3");
+                    helpfocus=false;
+                    btnhelp.clearFocus();
                     relhelp.setBackgroundResource(R.drawable.rounded_edittextg);
-                    if(relfileexplorer.isClickable()){
-                        relfileexplorer.requestFocus();
+                    if(btnfileexplorer.isEnabled()){
+                        fileexplorerfocus=true;
+                        btnfileexplorer.requestFocus();
                         relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
                     }else {
-                        reldownload.requestFocus();
-                        reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        if(codeok){
+                            downloadfocus=true;
+                            btndownload.requestFocus();
+                            reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }else {
+                            codefocus=true;
+                            edtcode.requestFocus();
+                            relcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }
                     }
-                }else if(relprivacy.hasFocus()){
-                    relhelp.requestFocus();
+                }else if(btnprivacy.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_UP", " 4");
+                    privacyfocus=false;  helpfocus=true;
+                    btnprivacy.clearFocus();
+                    btnhelp.requestFocus();
                     relprivacy.setBackgroundResource(R.drawable.rounded_edittextg);
                     relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                }else {
+                    Log.d("debug KEYCODE_DPAD_UP", " 5");
+                    if(downloadfocus){
+                        Log.d("debug KEYCODE_DPAD_UP", " 1");
+                        downloadfocus=false; codefocus=true;
+                        btndownload.clearFocus();
+                        edtcode.requestFocus();
+                        reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
+                        relcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }else if(fileexplorerfocus){
+                        Log.d("debug KEYCODE_DPAD_UP", " 2");
+                        fileexplorerfocus=false; downloadfocus=true;
+                        btnfileexplorer.clearFocus();
+                        btndownload.requestFocus();
+                        relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
+                        reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }else if(helpfocus){
+                        Log.d("debug KEYCODE_DPAD_UP", " 3");
+                        helpfocus=false;
+                        btnhelp.clearFocus();
+                        relhelp.setBackgroundResource(R.drawable.rounded_edittextg);
+                        if(btnfileexplorer.isEnabled()){
+                            fileexplorerfocus=true;
+                            btnfileexplorer.requestFocus();
+                            relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }else {
+                            if(codeok){
+                                downloadfocus=true;
+                                btndownload.requestFocus();
+                                reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                            }else {
+                                codefocus=true;
+                                edtcode.requestFocus();
+                                relcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                            }
+                        }
+                    }else if(privacyfocus){
+                        Log.d("debug KEYCODE_DPAD_UP", " 4");
+                        privacyfocus=false;  helpfocus=true;
+                        btnprivacy.clearFocus();
+                        btnhelp.requestFocus();
+                        relprivacy.setBackgroundResource(R.drawable.rounded_edittextg);
+                        relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }else {
+                        codefocus=true;
+                        edtcode.requestFocus();
+                        relcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }
                 }
-//                if(focus==1){
-//                    edtcode.requestFocus();
-//                    reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
-//                    relcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
-//                }else if(focus==2){
-//                    btndownload.requestFocus();
-//                    reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
-//                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
-//                }
+
                 break;
             case KeyEvent.KEYCODE_DPAD_DOWN:
+
                 if(edtcode.hasFocus()){
-                    reldownload.requestFocus();
-                    edtcode.setBackgroundResource(R.drawable.rounded_edittextg);
-                    reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
-                }else if(reldownload.hasFocus()){
-                    reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
-                    if(relfileexplorer.isClickable()){
-                        relfileexplorer.requestFocus();
-                        relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    Log.d("debug KEYCODE_DPAD_DOWN", " 1");
+                    codefocus=false;
+                    edtcode.clearFocus();
+                    relcode.setBackgroundResource(R.drawable.rounded_edittextg);
+                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
+                    if(codeok){
+                        downloadfocus=true;
+                        btndownload.requestFocus();
+                        reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
                     }else {
-                        relhelp.requestFocus();
+                        helpfocus=true;
+                        btnhelp.requestFocus();
                         relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
                     }
-                }else if(relfileexplorer.hasFocus()){
-                    relhelp.requestFocus();
+                }else if(btndownload.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_DOWN", " 2");
+                    downloadfocus=false;
+                    btndownload.clearFocus();
+                    reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
+                    if(btnfileexplorer.isEnabled()){
+                        fileexplorerfocus=true;
+                        btnfileexplorer.requestFocus();
+                        relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }else {
+                        helpfocus=true;
+                        btnhelp.requestFocus();
+                        relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }
+                }else if(btnfileexplorer.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_DOWN", " 3");
+                    fileexplorerfocus=false;  helpfocus=true;
+                    btnfileexplorer.clearFocus();
+                    btnhelp.requestFocus();
                     relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
                     relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
-                }else if(relhelp.hasFocus()){
-                    relprivacy.requestFocus();
+                }else if(btnhelp.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_DOWN", " 4");
+                    helpfocus=false; privacyfocus=true;
+                    btnhelp.clearFocus();
+                    btnprivacy.requestFocus();
                     relhelp.setBackgroundResource(R.drawable.rounded_edittextg);
                     relprivacy.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                }else {
+                    if(codefocus){
+                        Log.d("debug KEYCODE_DPAD_DOWN", " 1");
+                        codefocus=false;
+                        edtcode.clearFocus();
+                        relcode.setBackgroundResource(R.drawable.rounded_edittextg);
+                        if(codeok){
+                            downloadfocus=true;
+                            btndownload.requestFocus();
+                            reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }else {
+                            helpfocus=true;
+                            btnhelp.requestFocus();
+                            relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }
+                    }else if(downloadfocus){
+                        Log.d("debug KEYCODE_DPAD_DOWN", " 2");
+                        downloadfocus=false;
+                        btndownload.clearFocus();
+                        reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
+                        if(btnfileexplorer.isEnabled()){
+                            fileexplorerfocus=true;
+                            btnfileexplorer.requestFocus();
+                            relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }else {
+                            helpfocus=true;
+                            btnhelp.requestFocus();
+                            relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }
+                    }else if(fileexplorerfocus){
+                        Log.d("debug KEYCODE_DPAD_DOWN", " 3");
+                        fileexplorerfocus=false;  helpfocus=true;
+                        btnfileexplorer.clearFocus();
+                        btnhelp.requestFocus();
+                        relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
+                        relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }else if(helpfocus){
+                        Log.d("debug KEYCODE_DPAD_DOWN", " 4");
+                        helpfocus=false; privacyfocus=true;
+                        btnhelp.clearFocus();
+                        btnprivacy.requestFocus();
+                        relhelp.setBackgroundResource(R.drawable.rounded_edittextg);
+                        relprivacy.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }else {
+//                        privacyfocus=true;
+//                        btnprivacy.requestFocus();
+//                        relprivacy.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }
                 }
-//                if(focus==1){
-//                    btnfileexplorer.requestFocus();
-//                    reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
-//                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
-//                }else if(focus==2){
-//                    btnhelp.requestFocus();
-//                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
-//                    relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
-//                }
+
                 break;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
+
                 if(edtcode.hasFocus()){
-                    reldownload.requestFocus();
-                    edtcode.setBackgroundResource(R.drawable.rounded_edittextg);
-                    reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
-                }else if(reldownload.hasFocus()){
-                    reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
-                    if(relfileexplorer.isClickable()){
-                        relfileexplorer.requestFocus();
-                        relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    Log.d("debug KEYCODE_DPAD_DOWN", " 1");
+                    codefocus=false;
+                    edtcode.clearFocus();
+                    relcode.setBackgroundResource(R.drawable.rounded_edittextg);
+                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
+                    if(codeok){
+                        downloadfocus=true;
+                        btndownload.requestFocus();
+                        reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
                     }else {
-                        relhelp.requestFocus();
+                        helpfocus=true;
+                        btnhelp.requestFocus();
                         relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
                     }
-                }else if(relfileexplorer.hasFocus()){
-                    relhelp.requestFocus();
-                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
-                    relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
-                }else if(relhelp.hasFocus()){
-                    relprivacy.requestFocus();
-                    relhelp.setBackgroundResource(R.drawable.rounded_edittextg);
-                    relprivacy.setBackgroundResource(R.drawable.rounded_edittextgreen);
-                }
-                break;
-            case KeyEvent.KEYCODE_DPAD_LEFT:
-                if(reldownload.hasFocus()){
-                    edtcode.requestFocus();
+                }else if(btndownload.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_DOWN", " 2");
+                    downloadfocus=false;
+                    btndownload.clearFocus();
                     reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
-                    edtcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
-                }else if(relfileexplorer.hasFocus()){
-                    reldownload.requestFocus();
-                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
-                    reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
-                }else if(relhelp.hasFocus()){
-                    relhelp.setBackgroundResource(R.drawable.rounded_edittextg);
-                    if(relfileexplorer.isClickable()){
-                        relfileexplorer.requestFocus();
+                    if(btnfileexplorer.isEnabled()){
+                        fileexplorerfocus=true;
+                        btnfileexplorer.requestFocus();
                         relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
                     }else {
-                        reldownload.requestFocus();
-                        reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        helpfocus=true;
+                        btnhelp.requestFocus();
+                        relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
                     }
-                }else if(relprivacy.hasFocus()){
-                    relhelp.requestFocus();
+                }else if(btnfileexplorer.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_DOWN", " 3");
+                    fileexplorerfocus=false;  helpfocus=true;
+                    btnfileexplorer.clearFocus();
+                    btnhelp.requestFocus();
+                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
+                    relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                }else if(btnhelp.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_DOWN", " 4");
+                    helpfocus=false; privacyfocus=true;
+                    btnhelp.clearFocus();
+                    btnprivacy.requestFocus();
+                    relhelp.setBackgroundResource(R.drawable.rounded_edittextg);
+                    relprivacy.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                }else {
+                    if(codefocus){
+                        Log.d("debug KEYCODE_DPAD_DOWN", " 1");
+                        codefocus=false;
+                        edtcode.clearFocus();
+                        relcode.setBackgroundResource(R.drawable.rounded_edittextg);
+                        if(codeok){
+                            downloadfocus=true;
+                            btndownload.requestFocus();
+                            reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }else {
+                            helpfocus=true;
+                            btnhelp.requestFocus();
+                            relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }
+                    }else if(downloadfocus){
+                        Log.d("debug KEYCODE_DPAD_DOWN", " 2");
+                        downloadfocus=false;
+                        btndownload.clearFocus();
+                        reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
+                        if(btnfileexplorer.isEnabled()){
+                            fileexplorerfocus=true;
+                            btnfileexplorer.requestFocus();
+                            relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }else {
+                            helpfocus=true;
+                            btnhelp.requestFocus();
+                            relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }
+                    }else if(fileexplorerfocus){
+                        Log.d("debug KEYCODE_DPAD_DOWN", " 3");
+                        fileexplorerfocus=false;  helpfocus=true;
+                        btnfileexplorer.clearFocus();
+                        btnhelp.requestFocus();
+                        relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
+                        relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }else if(helpfocus){
+                        Log.d("debug KEYCODE_DPAD_DOWN", " 4");
+                        helpfocus=false; privacyfocus=true;
+                        btnhelp.clearFocus();
+                        btnprivacy.requestFocus();
+                        relhelp.setBackgroundResource(R.drawable.rounded_edittextg);
+                        relprivacy.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }else {
+//                        privacyfocus=true;
+//                        btnprivacy.requestFocus();
+//                        relprivacy.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }
+                }
+
+                break;
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+
+                if(btndownload.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_UP", " 1");
+                    downloadfocus=false; codefocus=true;
+                    btndownload.clearFocus();
+                    edtcode.requestFocus();
+                    reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
+                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
+                    relcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                }else if(btnfileexplorer.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_UP", " 2");
+                    fileexplorerfocus=false; downloadfocus=true;
+                    btnfileexplorer.clearFocus();
+                    btndownload.requestFocus();
+                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
+                    reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                }else if(btnhelp.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_UP", " 3");
+                    helpfocus=false;
+                    btnhelp.clearFocus();
+                    relhelp.setBackgroundResource(R.drawable.rounded_edittextg);
+                    if(btnfileexplorer.isEnabled()){
+                        fileexplorerfocus=true;
+                        btnfileexplorer.requestFocus();
+                        relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }else {
+                        if(codeok){
+                            downloadfocus=true;
+                            btndownload.requestFocus();
+                            reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }else {
+                            codefocus=true;
+                            edtcode.requestFocus();
+                            relcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }
+                    }
+                }else if(btnprivacy.hasFocus()){
+                    Log.d("debug KEYCODE_DPAD_UP", " 4");
+                    privacyfocus=false;  helpfocus=true;
+                    btnprivacy.clearFocus();
+                    btnhelp.requestFocus();
                     relprivacy.setBackgroundResource(R.drawable.rounded_edittextg);
                     relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                }else {
+                    Log.d("debug KEYCODE_DPAD_UP", " 5");
+                    if(downloadfocus){
+                        Log.d("debug KEYCODE_DPAD_UP", " 1");
+                        downloadfocus=false; codefocus=true;
+                        btndownload.clearFocus();
+                        edtcode.requestFocus();
+                        reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
+                        relcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }else if(fileexplorerfocus){
+                        Log.d("debug KEYCODE_DPAD_UP", " 2");
+                        fileexplorerfocus=false; downloadfocus=true;
+                        btnfileexplorer.clearFocus();
+                        btndownload.requestFocus();
+                        relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextg);
+                        reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }else if(helpfocus){
+                        Log.d("debug KEYCODE_DPAD_UP", " 3");
+                        helpfocus=false;
+                        btnhelp.clearFocus();
+                        relhelp.setBackgroundResource(R.drawable.rounded_edittextg);
+                        if(btnfileexplorer.isEnabled()){
+                            fileexplorerfocus=true;
+                            btnfileexplorer.requestFocus();
+                            relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                        }else {
+                            if(codeok){
+                                downloadfocus=true;
+                                btndownload.requestFocus();
+                                reldownload.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                            }else {
+                                codefocus=true;
+                                edtcode.requestFocus();
+                                relcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                            }
+                        }
+                    }else if(privacyfocus){
+                        Log.d("debug KEYCODE_DPAD_UP", " 4");
+                        privacyfocus=false;  helpfocus=true;
+                        btnprivacy.clearFocus();
+                        btnhelp.requestFocus();
+                        relprivacy.setBackgroundResource(R.drawable.rounded_edittextg);
+                        relhelp.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }else {
+                        codefocus=true;
+                        edtcode.requestFocus();
+                        relcode.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    }
                 }
+
                 break;
             case KeyEvent.KEYCODE_BACK:
+
+                if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawers();
+                }else {
+                    finish();
+                }
                 break;
             case KeyEvent.KEYCODE_ESCAPE:
 
@@ -434,17 +744,18 @@ public class MainActivity extends AppCompatActivity {
                 if(!fileName.contains(".apk")){
                     fileName=fileName+".apk";
                 }
-                File f = new File(Environment.getExternalStorageDirectory() + "/Download/TvDownload/");
                 File filcheckname = new File(Environment.getExternalStorageDirectory() + "/Download/TvDownload/"+fileName);
                 if(filcheckname.isDirectory()){
                     int rr=new Random().nextInt(100 - 1 + 1) + 1;
                     fileName=rr+""+fileName;
                 }
+                File f = new File(Environment.getExternalStorageDirectory() + "/Download/TvDownload/");
                 if(f.isDirectory()) {
                 }else {
                     f.mkdir();
                 }
-                output = new FileOutputStream(f.getAbsolutePath()+"/"+fileName);
+                File f2 = new File(Environment.getExternalStorageDirectory() + "/Download/TvDownload/",fileName);
+                output = new FileOutputStream(f2.getAbsolutePath());
 
                 byte data[] = new byte[4096];
                 long total = 0;
@@ -570,6 +881,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void hideKeyboard(Activity activity) {
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
         View view = activity.getCurrentFocus();
@@ -602,5 +914,13 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.closeDrawers();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawers();
+        }else {
+            finish();
+        }
+    }
 }

@@ -8,34 +8,60 @@
     android:orientation="vertical"
     tools:context=".PrivacyActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
 
-        <TextView
+        <ImageView
         android:id="@+id/txthead"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin20"
-        android:text="Loading"
-        android:textColor="@color/black"
+        android:minHeight="70dp"
+        android:layout_marginBottom="@dimen/margin20"
+        android:scaleType="fitXY"
         android:layout_gravity="center_horizontal"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/txtbody"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin20"
-        android:text="..."
-        android:textColor="@color/black"
+        android:visibility="gone"
+        android:minHeight="70dp"
+        android:scaleType="fitXY"
+        android:layout_marginBottom="@dimen/margin20"
         android:layout_gravity="center_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/btnesponal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin10"
+                    android:textColor="@color/white"
+                    android:background="@color/purple_500"
+                    android:padding="@dimen/margin5"
+                    android:text="ESPANOL"/>
+                <TextView
+                    android:id="@+id/btnexit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginHorizontal="@dimen/margin10"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:background="@color/purple_500"
+                    android:padding="@dimen/margin5"
+                    android:text="Press BACK To EXIT"/>
+            </RelativeLayout>
 
         </LinearLayout>
-    </ScrollView>
+<!--    </ScrollView>-->
 
 </LinearLayout>

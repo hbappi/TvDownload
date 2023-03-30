@@ -6,9 +6,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.sttech.tvdownload.API.API;
 import com.sttech.tvdownload.API.ApiUtils;
 import com.sttech.tvdownload.RestrofitResponses.contactRes;
@@ -22,8 +28,9 @@ import retrofit2.Callback;
 public class ContactUsActivity extends AppCompatActivity {
 
     API api;
-    TextView txthead;
-    TextView txtbody;
+    ImageView txthead;
+//    TextView txtbody;
+    TextView btnexit;
 
 
     @Override
@@ -33,42 +40,57 @@ public class ContactUsActivity extends AppCompatActivity {
 
 
 
+        btnexit=findViewById(R.id.btnexit);
         txthead=findViewById(R.id.txthead);
-        txtbody=findViewById(R.id.txtbody);
+//        txtbody=findViewById(R.id.txtbody);
         api = ApiUtils.getAPI();
 
         GetDataApi();
+
+        btnexit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
 
 
     public void GetDataApi() {
-        Call<List<contactRes>> call = api.CONTACTUS_RES_CALL("1");
-        call.enqueue(new Callback<List<contactRes>>() {
+        Call<contactRes> call = api.CONTACTUS_RES_CALL("1");
+        call.enqueue(new Callback<contactRes>() {
             @Override
-            public void onResponse(Call<List<contactRes>> call, retrofit2.Response<List<contactRes>> response) {
+            public void onResponse(Call<contactRes> call, retrofit2.Response<contactRes> response) {
                 Log.e("api ", "\n"+response.toString());
                 if (response.isSuccessful()) {
 
-                    List<contactRes> userdata = response.body();
+                    contactRes userdata = response.body();
                     try {
 
                         if(userdata!=null) {
 
-                            if (userdata.size() != 0) {
+                            if (userdata != null) {
 
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                                    txthead.setText(Html.fromHtml(userdata.get(0).getPrivacyPolicyEnglish(), Html.FROM_HTML_MODE_COMPACT));
-                                    txtbody.setText(Html.fromHtml(userdata.get(0).getContactUs(), Html.FROM_HTML_MODE_COMPACT));
-                                } else {
-//                                    txthead.setText(Html.fromHtml(userdata.get(0).getPrivacyPolicyEnglish()));
-                                    txtbody.setText(Html.fromHtml(userdata.get(0).getContactUs()));
-                                }
+//                                Glide.with(ContactUsActivity.this)
+//                                        .load("https://"+userdata.getContactUsImage())
+//                                        .placeholder(R.drawable.loading)
+//                                        .into(txthead);
+                                Picasso.get().load("https://"+userdata.getContactUsImage()).into(txthead);
+//                                txthead.loadData(userdata.getContactUsImage(), "text/html", "UTF-8");
+//                                txtbody.loadData(userdata.get(0).getContactUs(), "text/html", "UTF-8");
+//                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+////                                    txthead.setText(Html.fromHtml(userdata.get(0).getPrivacyPolicyEnglish(), Html.FROM_HTML_MODE_COMPACT));
+//                                    txtbody.setText(Html.fromHtml(userdata.get(0).getContactUs(), Html.FROM_HTML_MODE_COMPACT));
+//                                } else {
+////                                    txthead.setText(Html.fromHtml(userdata.get(0).getPrivacyPolicyEnglish()));
+//                                    txtbody.setText(Html.fromHtml(userdata.get(0).getContactUs()));
+//                                }
 
                             }
 
                         } else {
-                            txthead.setText("Not Found");
+                            Toast.makeText(ContactUsActivity.this, "Not Found", Toast.LENGTH_SHORT).show();
                         }
 
                     }catch (Exception e){}
@@ -80,7 +102,7 @@ public class ContactUsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<contactRes>> call, Throwable t) {
+            public void onFailure(Call<contactRes> call, Throwable t) {
                 Toast.makeText(ContactUsActivity.this, "Error", Toast.LENGTH_LONG).show();
             }
         });

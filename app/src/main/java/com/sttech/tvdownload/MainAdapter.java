@@ -1,7 +1,9 @@
 package com.sttech.tvdownload;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -121,19 +123,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                                 case R.id.menu_delete:
                                     // when click on delete
                                     // use for loop
-                                    for(File s:selectList) {
-                                        // remove selected item list
-                                        s.delete();
-                                        arrayList.remove(s);
-                                    }
-                                    // check condition
-                                    if(arrayList.size()==0) {
-                                        // when array list is empty
-                                        // visible text view
-                                        tvEmpty.setVisibility(View.VISIBLE);
-                                    }
-                                    // finish action mode
-                                    mode.finish();
+                                    ShowDeleteMoreDialog(mode);
+//                                    for(File s:selectList) {
+//                                        // remove selected item list
+//                                        s.delete();
+//                                        arrayList.remove(s);
+//                                    }
+//                                    // check condition
+//                                    if(arrayList.size()==0) {
+//                                        // when array list is empty
+//                                        // visible text view
+//                                        tvEmpty.setVisibility(View.VISIBLE);
+//                                    }
+//                                    // finish action mode
+//                                    mode.finish();
                                     break;
 
                                 case R.id.menu_select_all:
@@ -288,9 +291,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrayList.get(i).delete();
-                arrayList.remove(i);
-                notifyDataSetChanged();
+                ShowDeleteDialog(i);
+//                arrayList.get(i).delete();
+//                arrayList.remove(i);
+//                notifyDataSetChanged();
                 dialog.dismiss();
             }
         });
@@ -320,6 +324,81 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
         dialog.show();
 
+    }
+
+    private void ShowDeleteDialog(int i){
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        builder.setTitle("Delete");
+        builder.setMessage("Do you realy want to delete this apk file?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                arrayList.get(i).delete();
+                arrayList.remove(i);
+                notifyDataSetChanged();
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void ShowDeleteMoreDialog(ActionMode mode){
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        builder.setTitle("Delete");
+        builder.setMessage("Do you realy want to delete these apk files?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                for(File s:selectList) {
+                    // remove selected item list
+                    s.delete();
+                    arrayList.remove(s);
+                }
+                // check condition
+                if(arrayList.size()==0) {
+                    // when array list is empty
+                    // visible text view
+                    tvEmpty.setVisibility(View.VISIBLE);
+                }
+                // finish action mode
+                mode.finish();
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                mode.finish();
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 }

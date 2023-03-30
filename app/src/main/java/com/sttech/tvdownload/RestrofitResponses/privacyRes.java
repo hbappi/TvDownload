@@ -4,37 +4,28 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class privacyRes {
-    @SerializedName("id")
+
+    @SerializedName("pp_english_image")
     @Expose
-    private Integer id;
-    @SerializedName("privacy_policy_english")
+    private String ppEnglishImage;
+    @SerializedName("pp_spanish_image")
     @Expose
-    private String privacyPolicyEnglish;
-    @SerializedName("privacy_policy_spanish")
-    @Expose
-    private String privacyPolicySpanish;
+    private String ppSpanishImage;
 
-    public Integer getId() {
-        return id;
+    public String getPpEnglishImage() {
+        return ppEnglishImage;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setPpEnglishImage(String ppEnglishImage) {
+        this.ppEnglishImage = ppEnglishImage;
     }
 
-    public String getPrivacyPolicyEnglish() {
-        return privacyPolicyEnglish;
+    public String getPpSpanishImage() {
+        return ppSpanishImage;
     }
 
-    public void setPrivacyPolicyEnglish(String privacyPolicyEnglish) {
-        this.privacyPolicyEnglish = privacyPolicyEnglish;
+    public void setPpSpanishImage(String ppSpanishImage) {
+        this.ppSpanishImage = ppSpanishImage;
     }
 
-    public String getPrivacyPolicySpanish() {
-        return privacyPolicySpanish;
-    }
-
-    public void setPrivacyPolicySpanish(String privacyPolicySpanish) {
-        this.privacyPolicySpanish = privacyPolicySpanish;
-    }
 }

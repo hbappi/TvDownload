@@ -116,10 +116,11 @@ public class FileExplorerActivity extends AppCompatActivity {
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fileList.get(i).delete();
-                fileList.remove(i);
-                carDataAdapter.notifyDataSetChanged();
-                dialog.dismiss();
+                ShowDeleteDialog(i);
+//                fileList.get(i).delete();
+//                fileList.remove(i);
+//                carDataAdapter.notifyDataSetChanged();
+//                dialog.dismiss();
             }
         });
 
@@ -150,6 +151,38 @@ public class FileExplorerActivity extends AppCompatActivity {
 
     }
 
+    private void ShowDeleteDialog(int i){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Delete");
+        builder.setMessage("Are you sure?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                fileList.get(i).delete();
+                fileList.remove(i);
+                carDataAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
 
 }

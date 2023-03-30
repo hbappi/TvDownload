@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginVertical="@dimen/margin10"
+            android:layout_marginVertical="@dimen/margin1"
             android:layout_marginHorizontal="@dimen/margin20"
             android:background="@drawable/rounded_edittextg">
             <EditText
@@ -33,8 +33,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin3"
                 android:paddingHorizontal="@dimen/margin5"
-                android:paddingVertical="@dimen/margin30"
+                android:paddingVertical="@dimen/margin25"
                 android:maxLength="6"
+                android:textColor="@color/black"
                 android:background="@drawable/rounded_edittext"
                 android:hint="Code" />
         </RelativeLayout>
@@ -52,29 +53,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginVertical="@dimen/margin10"
+            android:layout_marginVertical="@dimen/margin4"
             android:layout_marginHorizontal="@dimen/margin20"
             android:background="@drawable/rounded_edittextg">
+
             <Button
                 android:id="@+id/btndownload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin3"
-                android:layout_marginStart="@dimen/margin5"
-                android:layout_marginTop="@dimen/margin5"
-                android:layout_marginEnd="@dimen/margin5"
-                android:layout_marginBottom="@dimen/margin5"
+                android:layout_marginStart="@dimen/margin3"
+                android:layout_marginLeft="@dimen/margin3"
+                android:layout_marginTop="@dimen/margin3"
+                android:layout_marginEnd="@dimen/margin3"
+                android:layout_marginRight="@dimen/margin3"
+                android:layout_marginBottom="@dimen/margin3"
                 android:background="@drawable/rounded_edittextb"
                 android:drawableTop="@drawable/downloadcl"
-                android:drawablePadding="@dimen/margin10"
-                android:padding="@dimen/margin10"
+                android:drawablePadding="@dimen/margin8"
                 android:insetTop="@dimen/margin0"
                 android:insetBottom="@dimen/margin0"
-                android:minWidth="@dimen/margin0"
-                android:minHeight="@dimen/margin0"
+                android:padding="@dimen/margin10"
                 android:text="Download File"
-                android:textSize="18sp"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:textSize="18sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -82,25 +83,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginVertical="@dimen/margin10"
+            android:layout_marginVertical="@dimen/margin4"
             android:layout_marginHorizontal="@dimen/margin20"
             android:background="@drawable/rounded_edittextg">
+
             <Button
                 android:id="@+id/btnfileexplorer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAllCaps="false"
-                android:drawablePadding="@dimen/margin10"
-                android:padding="@dimen/margin10"
-                android:minHeight="@dimen/margin0"
-                android:minWidth="@dimen/margin0"
+                android:layout_marginStart="@dimen/margin3"
+                android:layout_marginLeft="@dimen/margin3"
+                android:layout_marginTop="@dimen/margin3"
+                android:layout_marginEnd="@dimen/margin3"
+                android:layout_marginRight="@dimen/margin3"
+                android:layout_marginBottom="@dimen/margin3"
+                android:background="@drawable/rounded_edittextb"
+                android:drawableTop="@drawable/downloadcl"
+                android:drawablePadding="@dimen/margin8"
                 android:insetTop="@dimen/margin0"
                 android:insetBottom="@dimen/margin0"
-                android:background="@drawable/rounded_edittextb"
-                android:layout_margin="@dimen/margin3"
-                android:drawableTop="@drawable/downloadcl"
-                android:textSize="18sp"
-                android:text="File Explorer"/>
+                android:padding="@dimen/margin10"
+                android:text="File Explorer"
+                android:textAllCaps="false"
+                android:textSize="18sp" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -116,29 +121,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginVertical="@dimen/margin10"
+            android:layout_marginVertical="@dimen/margin4"
             android:layout_marginHorizontal="@dimen/margin20"
             android:background="@drawable/rounded_edittextg">
+
             <Button
                 android:id="@+id/btnhelp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin3"
-                android:layout_marginStart="@dimen/margin5"
-                android:layout_marginTop="@dimen/margin5"
-                android:layout_marginEnd="@dimen/margin5"
-                android:layout_marginBottom="@dimen/margin5"
+                android:layout_marginStart="@dimen/margin3"
+                android:layout_marginLeft="@dimen/margin3"
+                android:layout_marginTop="@dimen/margin3"
+                android:layout_marginEnd="@dimen/margin3"
+                android:layout_marginRight="@dimen/margin3"
+                android:layout_marginBottom="@dimen/margin3"
                 android:background="@drawable/rounded_edittextb"
                 android:drawableTop="@drawable/downloadcl"
-                android:drawablePadding="@dimen/margin10"
-                android:padding="@dimen/margin10"
+                android:drawablePadding="@dimen/margin8"
                 android:insetTop="@dimen/margin0"
                 android:insetBottom="@dimen/margin0"
-                android:minWidth="@dimen/margin0"
-                android:minHeight="@dimen/margin0"
+                android:padding="@dimen/margin10"
                 android:text="Help"
-                android:textSize="18sp"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:textSize="18sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -146,25 +151,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginVertical="@dimen/margin10"
+            android:layout_marginVertical="@dimen/margin4"
             android:layout_marginHorizontal="@dimen/margin20"
             android:background="@drawable/rounded_edittextg">
+
             <Button
                 android:id="@+id/btnprivacy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAllCaps="false"
-                android:drawablePadding="@dimen/margin10"
-                android:padding="@dimen/margin10"
-                android:minHeight="@dimen/margin0"
-                android:minWidth="@dimen/margin0"
+                android:layout_marginStart="@dimen/margin3"
+                android:layout_marginLeft="@dimen/margin3"
+                android:layout_marginTop="@dimen/margin3"
+                android:layout_marginEnd="@dimen/margin3"
+                android:layout_marginRight="@dimen/margin3"
+                android:layout_marginBottom="@dimen/margin3"
+                android:background="@drawable/rounded_edittextb"
+                android:drawableTop="@drawable/privacypolicyw"
+                android:drawablePadding="@dimen/margin8"
                 android:insetTop="@dimen/margin0"
                 android:insetBottom="@dimen/margin0"
-                android:background="@drawable/rounded_edittextb"
-                android:layout_margin="@dimen/margin3"
-                android:drawableTop="@drawable/privacypolicyw"
-                android:textSize="18sp"
-                android:text="Privacy"/>
+                android:padding="@dimen/margin10"
+                android:text="Privacy"
+                android:textAllCaps="false"
+                android:textSize="18sp" />
         </RelativeLayout>
 
     </LinearLayout>

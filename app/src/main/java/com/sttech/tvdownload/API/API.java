@@ -23,22 +23,22 @@ public interface API {
 
     @FormUrlEncoded
     @POST("api/getdata/helpinstruction")
-    Call<List<helpRes>> HELP_RES_CALL(@Field("id") String keyword);
+    Call<helpRes> HELP_RES_CALL(@Field("id") String keyword);
 
 
 
     @FormUrlEncoded
     @POST("api/getdata/privacypolicy")
-    Call<List<privacyRes>> PRIVACY_RES_CALL(@Field("id") String keyword);
+    Call<privacyRes> PRIVACY_RES_CALL(@Field("id") String keyword);
 
 
     @FormUrlEncoded
     @POST("api/getdata/contactus")
-    Call<List<contactRes>> CONTACTUS_RES_CALL(@Field("id") String keyword);
+    Call<contactRes> CONTACTUS_RES_CALL(@Field("id") String keyword);
 
     @FormUrlEncoded
     @POST("api/getdata/donate")
-    Call<List<donateRes>> DONATE_RES_CALL(@Field("id") String keyword);
+    Call<donateRes> DONATE_RES_CALL(@Field("id") String keyword);
 
 }
 

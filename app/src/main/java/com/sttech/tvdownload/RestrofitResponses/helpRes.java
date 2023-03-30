@@ -4,37 +4,26 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class helpRes {
-    @SerializedName("id")
+    @SerializedName("hi_english_image")
     @Expose
-    private Integer id;
-    @SerializedName("help_instruction_english")
+    private String hiEnglishImage;
+    @SerializedName("hi_spanish_image")
     @Expose
-    private String helpInstructionEnglish;
-    @SerializedName("help_instruction_spanish")
-    @Expose
-    private String helpInstructionSpanish;
+    private String hiSpanishImage;
 
-    public Integer getId() {
-        return id;
+    public String getHiEnglishImage() {
+        return hiEnglishImage;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setHiEnglishImage(String hiEnglishImage) {
+        this.hiEnglishImage = hiEnglishImage;
     }
 
-    public String getHelpInstructionEnglish() {
-        return helpInstructionEnglish;
+    public String getHiSpanishImage() {
+        return hiSpanishImage;
     }
 
-    public void setHelpInstructionEnglish(String helpInstructionEnglish) {
-        this.helpInstructionEnglish = helpInstructionEnglish;
-    }
-
-    public String getHelpInstructionSpanish() {
-        return helpInstructionSpanish;
-    }
-
-    public void setHelpInstructionSpanish(String helpInstructionSpanish) {
-        this.helpInstructionSpanish = helpInstructionSpanish;
+    public void setHiSpanishImage(String hiSpanishImage) {
+        this.hiSpanishImage = hiSpanishImage;
     }
 }

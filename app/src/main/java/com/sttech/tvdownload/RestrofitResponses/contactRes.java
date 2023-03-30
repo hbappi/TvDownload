@@ -4,28 +4,17 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class contactRes {
-    @SerializedName("id")
+
+    @SerializedName("contact_us_image")
     @Expose
-    private Integer id;
-    @SerializedName("contact_us")
-    @Expose
-    private String contactUs;
+    private String contactUsImage;
 
-    public Integer getId() {
-        return id;
+    public String getContactUsImage() {
+        return contactUsImage;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setContactUsImage(String contactUsImage) {
+        this.contactUsImage = contactUsImage;
     }
-
-    public String getContactUs() {
-        return contactUs;
-    }
-
-    public void setContactUs(String contactUs) {
-        this.contactUs = contactUs;
-    }
-
 
 }
