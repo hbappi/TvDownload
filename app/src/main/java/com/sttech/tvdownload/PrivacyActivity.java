@@ -1,11 +1,16 @@
 package com.sttech.tvdownload;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -31,30 +36,64 @@ public class PrivacyActivity extends AppCompatActivity {
     ImageView txthead;
     ImageView txtbody;
     TextView btnesponal,btnexit;
+    String engurl="",espurl="";
+    boolean eng=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_privacy);
 
+
+
         btnesponal=findViewById(R.id.btnesponal);
         btnexit=findViewById(R.id.btnexit);
+
+        btnesponal.setFocusable(true);
+//        btnesponal.setFocusableInTouchMode(true);
+        btnexit.setFocusable(true);
+//        btnexit.setFocusableInTouchMode(true);
 
         txthead=findViewById(R.id.txthead);
         txtbody=findViewById(R.id.txtbody);
         api = ApiUtils.getAPI();
 
-        GetDataApi();
+        if (savedInstanceState != null) {
+            if(savedInstanceState.getString("eng").contains("false")){
+                eng=false;
+                btnesponal.setText("INGLES");
+                btnexit.setText("Pulse Atrás para salir");
+                txthead.setVisibility(View.GONE);
+                txtbody.setVisibility(View.VISIBLE);
+            }else {
+                eng=true;
+                btnesponal.setText("ESPANOL");
+                btnexit.setText("Press BACK To EXIT");
+                txthead.setVisibility(View.VISIBLE);
+                txtbody.setVisibility(View.GONE);
+            }
+            engurl=savedInstanceState.getString("engurl");
+            espurl=savedInstanceState.getString("espurl");
+            Picasso.get().load(""+engurl).into(txthead);
+            Picasso.get().load(""+espurl).into(txtbody);
+        }else {
+            GetDataApi();
+        }
+
 
         btnesponal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnexit.setBackgroundResource(R.drawable.rounded_noborders);
+                btnesponal.setBackgroundResource(R.drawable.rounded_borders);
                 if(btnesponal.getText().toString().contains("ESPANOL")){
+                    eng=false;
                     btnesponal.setText("INGLES");
                     btnexit.setText("Pulse Atrás para salir");
                     txthead.setVisibility(View.GONE);
                     txtbody.setVisibility(View.VISIBLE);
                 }else {
+                    eng=true;
                     btnesponal.setText("ESPANOL");
                     btnexit.setText("Press BACK To EXIT");
                     txthead.setVisibility(View.VISIBLE);
@@ -65,11 +104,44 @@ public class PrivacyActivity extends AppCompatActivity {
         btnexit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnesponal.setBackgroundResource(R.drawable.rounded_noborders);
+                btnexit.setBackgroundResource(R.drawable.rounded_borders);
                 onBackPressed();
             }
         });
 
+
+        btnesponal.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    btnesponal.setBackgroundResource(R.drawable.rounded_borders);
+                }else {
+                    btnesponal.setBackgroundResource(R.drawable.rounded_noborders);
+                }
+            }
+        });
+        btnexit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    btnexit.setBackgroundResource(R.drawable.rounded_borders);
+                }else {
+                    btnexit.setBackgroundResource(R.drawable.rounded_noborders);
+                }
+            }
+        });
+
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("eng", eng+"");
+        outState.putString("engurl", engurl+"");
+        outState.putString("espurl", espurl+"");
+    }
+
 
 
     public void GetDataApi() {
@@ -86,6 +158,8 @@ public class PrivacyActivity extends AppCompatActivity {
                         if(userdata!=null) {
 
                             if (userdata != null) {
+                                engurl="https://"+userdata.getPpEnglishImage();
+                                espurl="https://"+userdata.getPpSpanishImage();
 
 //                                Glide.with(PrivacyActivity.this)
 //                                        .load("https://"+userdata.getPpEnglishImage())
@@ -130,6 +204,7 @@ public class PrivacyActivity extends AppCompatActivity {
 
 
     }
+
 
 
 

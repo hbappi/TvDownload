@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -32,6 +34,7 @@ public class DonateActivity extends AppCompatActivity {
 //    WebView txthead;
 //    TextView txtbody;
     ImageView imgdonate;
+    TextView btnexit;
 
 
     @Override
@@ -45,21 +48,45 @@ public class DonateActivity extends AppCompatActivity {
         imgdonate=findViewById(R.id.imgdonate);
 //        txthead=findViewById(R.id.txthead);
 //        txtbody=findViewById(R.id.txtbody);
+
+        btnexit=findViewById(R.id.btnexit);
+        btnexit.setFocusable(true);
+//        btnexit.setFocusableInTouchMode(true);
+
         api = ApiUtils.getAPI();
 
-        Glide.with(DonateActivity.this)
-                .load("https://mctv.banttechenergies.com/admin_assets/images/donate.png")
-                .placeholder(R.drawable.loading)
-                .error(R.drawable.loading)
-                .into(imgdonate);
+//        Glide.with(DonateActivity.this)
+//                .load("https://mctv.banttechenergies.com/admin_assets/images/donate.png")
+//                .placeholder(R.drawable.loading)
+//                .error(R.drawable.loading)
+//                .into(imgdonate);
 
         GetDataApi();
 
-        imgdonate.setOnClickListener(new View.OnClickListener() {
+        btnexit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent shareintent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/3khAOs9"));
-//                startActivity(shareintent);
+                btnexit.setBackgroundResource(R.drawable.rounded_borders);
+                onBackPressed();
+            }
+        });
+
+//        imgdonate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                Intent shareintent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/3khAOs9"));
+////                startActivity(shareintent);
+//            }
+//        });
+
+        btnexit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    btnexit.setBackgroundResource(R.drawable.rounded_borders);
+                }else {
+                    btnexit.setBackgroundResource(R.drawable.rounded_noborders);
+                }
             }
         });
 
@@ -117,7 +144,6 @@ public class DonateActivity extends AppCompatActivity {
 
 
     }
-
 
 
 }

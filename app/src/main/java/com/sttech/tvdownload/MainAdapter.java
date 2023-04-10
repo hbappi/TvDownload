@@ -3,10 +3,13 @@ package com.sttech.tvdownload;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -72,6 +75,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         // set text on text view
         holder.textView.setText(arrayList.get(position).getName());
 
+        holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    holder.textView.setBackgroundResource(R.drawable.rounded_bordersg);
+                }else {
+                    holder.textView.setBackgroundResource(R.drawable.rounded_nobordersg);
+                }
+            }
+        });
+
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -123,7 +137,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                                 case R.id.menu_delete:
                                     // when click on delete
                                     // use for loop
+                                    if (selectList.size()!=0){
                                     ShowDeleteMoreDialog(mode);
+                                    }else {
+                                        Toast.makeText(activity, "Please select a item", Toast.LENGTH_SHORT).show();
+                                    }
 //                                    for(File s:selectList) {
 //                                        // remove selected item list
 //                                        s.delete();
@@ -202,6 +220,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     // call method
                     ClickItem(holder);
                 } else {
+//                    holder.itemView.requestFocus();
+//                    holder.textView.setBackgroundResource(R.drawable.rounded_bordersg);
                     showDialog(activity,holder.getAdapterPosition());
                     // when action mode is not enable
                     // display toast
@@ -304,12 +324,28 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             public void onClick(View v) {
 
                 Uri uri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", arrayList.get(i));
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.setDataAndType(uri, "application/vnd.android.package-archive");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intent);
+//                Uri uri = Uri.fromFile(arrayList.get(i));
+//                Log.e("abcdinstall ",uri.toString());
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                intent.setDataAndType(uri, "application/vnd.android.package-archive");
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                activity.startActivity(intent);
+
+                try {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        intent.setDataAndType(uri, "application/vnd.android.package-archive");
+                    } else {
+                        intent.setDataAndType(Uri.fromFile(arrayList.get(i)), "application/vnd.android.package-archive");
+                    }
+                    activity.startActivityForResult(intent, 11);
+                } catch (ActivityNotFoundException anfe) {
+                    Toast.makeText(activity, "No activity found to open this attachment.", Toast.LENGTH_LONG).show();
+                }
 
                 dialog.dismiss();
             }

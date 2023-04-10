@@ -26,7 +26,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginVertical="@dimen/margin1"
             android:layout_marginHorizontal="@dimen/margin20"
-            android:background="@drawable/rounded_edittextg">
+            android:background="@drawable/rounded_edittextgreen">
             <EditText
                 android:id="@+id/edtcode"
                 android:layout_width="match_parent"
@@ -69,13 +69,13 @@
                 android:layout_marginBottom="@dimen/margin3"
                 android:background="@drawable/rounded_edittextb"
                 android:drawableTop="@drawable/downloadcl"
-                android:drawablePadding="@dimen/margin8"
+                android:drawablePadding="@dimen/margin5"
                 android:insetTop="@dimen/margin0"
                 android:insetBottom="@dimen/margin0"
-                android:padding="@dimen/margin10"
+                android:padding="@dimen/margin8"
                 android:text="Download File"
                 android:textAllCaps="false"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -99,13 +99,13 @@
                 android:layout_marginBottom="@dimen/margin3"
                 android:background="@drawable/rounded_edittextb"
                 android:drawableTop="@drawable/downloadcl"
-                android:drawablePadding="@dimen/margin8"
+                android:drawablePadding="@dimen/margin5"
                 android:insetTop="@dimen/margin0"
                 android:insetBottom="@dimen/margin0"
-                android:padding="@dimen/margin10"
+                android:padding="@dimen/margin8"
                 android:text="File Explorer"
                 android:textAllCaps="false"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -137,13 +137,13 @@
                 android:layout_marginBottom="@dimen/margin3"
                 android:background="@drawable/rounded_edittextb"
                 android:drawableTop="@drawable/downloadcl"
-                android:drawablePadding="@dimen/margin8"
+                android:drawablePadding="@dimen/margin5"
                 android:insetTop="@dimen/margin0"
                 android:insetBottom="@dimen/margin0"
-                android:padding="@dimen/margin10"
+                android:padding="@dimen/margin8"
                 android:text="Help"
                 android:textAllCaps="false"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -167,13 +167,13 @@
                 android:layout_marginBottom="@dimen/margin3"
                 android:background="@drawable/rounded_edittextb"
                 android:drawableTop="@drawable/privacypolicyw"
-                android:drawablePadding="@dimen/margin8"
+                android:drawablePadding="@dimen/margin5"
                 android:insetTop="@dimen/margin0"
                 android:insetBottom="@dimen/margin0"
-                android:padding="@dimen/margin10"
+                android:padding="@dimen/margin8"
                 android:text="Privacy"
                 android:textAllCaps="false"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
         </RelativeLayout>
 
     </LinearLayout>

@@ -5,6 +5,7 @@ plugins {
 android {
     namespace 'com.sttech.tvdownload'
     compileSdk 33
+//    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "com.sttech.tvdownload"
@@ -16,6 +17,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
 
     buildTypes {
         release {
@@ -51,4 +53,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 
     implementation 'com.squareup.picasso:picasso:2.8'
+
+//    implementation 'org.apache.httpcomponents:httpcore:4.4.1'
+//    implementation 'org.apache.httpcomponents:httpclient:4.5'
 }

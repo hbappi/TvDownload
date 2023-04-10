@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/margin10"
                 android:layout_marginHorizontal="@dimen/margin20"
-                android:background="@drawable/rounded_edittextg">
+                android:background="@drawable/rounded_edittextgreen">
                       <EditText
                         android:id="@+id/edtcode"
                         android:layout_width="match_parent"

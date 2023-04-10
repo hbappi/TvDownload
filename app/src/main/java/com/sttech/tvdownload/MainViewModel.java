@@ -18,4 +18,5 @@ public class MainViewModel extends ViewModel {
     public MutableLiveData<String> getText() {
         return mutableLiveData;
     }
+
 }

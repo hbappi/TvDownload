@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -41,6 +43,9 @@ public class ContactUsActivity extends AppCompatActivity {
 
 
         btnexit=findViewById(R.id.btnexit);
+        btnexit.setFocusable(true);
+//        btnexit.setFocusableInTouchMode(true);
+
         txthead=findViewById(R.id.txthead);
 //        txtbody=findViewById(R.id.txtbody);
         api = ApiUtils.getAPI();
@@ -50,7 +55,19 @@ public class ContactUsActivity extends AppCompatActivity {
         btnexit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnexit.setBackgroundResource(R.drawable.rounded_borders);
                 onBackPressed();
+            }
+        });
+
+        btnexit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    btnexit.setBackgroundResource(R.drawable.rounded_borders);
+                }else {
+                    btnexit.setBackgroundResource(R.drawable.rounded_noborders);
+                }
             }
         });
 
@@ -109,7 +126,6 @@ public class ContactUsActivity extends AppCompatActivity {
 
 
     }
-
 
 
 }
