@@ -168,8 +168,8 @@ public class MainActivity extends AppCompatActivity {
 //                url="https://d.apkpure.com/b/APK/com.chanel.weather.forecast.accu?version=latest";
                 url = "https://d.apkpure.com/b/APK/com.willme.topactivity?version=latest";
                 if (url != null) {
+                    startDownloadHB(url);
                     if (checkPermissionForReadExtertalStorage()) {
-                        startDownloadHB(url);
 //                        downloadTask = new DownloadTask(MainActivity.this);
 //                        downloadTask.execute("" + url);
 ////                downloadTask.execute("https://d-04.winudf.com/b/APK/Y29tLmluc3RhZ3JhbS5saXRlXzQ1MDI0OTI0MV82YmU3ZjBhYg?_fn=SW5zdGFncmFtIExpdGVfMzQ0LjAuMC4xMS44M19BcGtwdXJlLmFwaw&_p=Y29tLmluc3RhZ3JhbS5saXRl&download_id=1412501676346857&is_hot=true&k=290422941bdd1697603b1b6e5f5ec32664047145");
