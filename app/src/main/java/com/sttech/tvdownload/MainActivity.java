@@ -15,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -60,8 +61,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -160,16 +165,20 @@ public class MainActivity extends AppCompatActivity {
                 relhelp.setBackgroundResource(R.drawable.rounded_edittextg);
                 relprivacy.setBackgroundResource(R.drawable.rounded_edittextg);
 
-                url="https://d.apkpure.com/b/APK/com.chanel.weather.forecast.accu?version=latest";
+//                url="https://d.apkpure.com/b/APK/com.chanel.weather.forecast.accu?version=latest";
+                url = "https://d.apkpure.com/b/APK/com.willme.topactivity?version=latest";
                 if (url != null) {
                     if (checkPermissionForReadExtertalStorage()) {
-                        downloadTask = new DownloadTask(MainActivity.this);
-                        downloadTask.execute("" + url);
-//                downloadTask.execute("https://d-04.winudf.com/b/APK/Y29tLmluc3RhZ3JhbS5saXRlXzQ1MDI0OTI0MV82YmU3ZjBhYg?_fn=SW5zdGFncmFtIExpdGVfMzQ0LjAuMC4xMS44M19BcGtwdXJlLmFwaw&_p=Y29tLmluc3RhZ3JhbS5saXRl&download_id=1412501676346857&is_hot=true&k=290422941bdd1697603b1b6e5f5ec32664047145");
-//                downloadTask.execute("https://banttech.com/CineplexHD.apk");
+                        startDownloadHB(url);
+//                        downloadTask = new DownloadTask(MainActivity.this);
+//                        downloadTask.execute("" + url);
+////                downloadTask.execute("https://d-04.winudf.com/b/APK/Y29tLmluc3RhZ3JhbS5saXRlXzQ1MDI0OTI0MV82YmU3ZjBhYg?_fn=SW5zdGFncmFtIExpdGVfMzQ0LjAuMC4xMS44M19BcGtwdXJlLmFwaw&_p=Y29tLmluc3RhZ3JhbS5saXRl&download_id=1412501676346857&is_hot=true&k=290422941bdd1697603b1b6e5f5ec32664047145");
+////                downloadTask.execute("https://banttech.com/CineplexHD.apk");
+
+
                     } else {
                         try {
-                            requestPermissionForReadExtertalStorage();
+//                            requestPermissionForReadExtertalStorage();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -375,32 +384,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void startDownloadHB(String urls){
+        AtomicBoolean isSuccess = new AtomicBoolean(false);
 
-    private class DownloadTask extends AsyncTask<String, Integer, String> {
 
-        private Context context;
-        private PowerManager.WakeLock mWakeLock;
+        PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                getClass().getName());
+        mWakeLock.acquire(60*60*1000L /*60 minutes*/);
 
-        public DownloadTask(Context context) {
-            this.context = context;
-        }
 
-        @Override
-        protected String doInBackground(String... sUrl) {
+        mProgressDialog.show();
+
+        Executors.newSingleThreadExecutor().execute(()->{
+
             InputStream input = null;
             OutputStream output = null;
             HttpURLConnection connection = null;
             String filename = null;
             try {
-                URL url = new URL(sUrl[0]);
+                URL url = new URL(urls);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
 
                 // expect HTTP 200 OK, so we don't mistakenly save error report
                 // instead of the file
                 if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                    return "Server returned HTTP " + connection.getResponseCode()
-                            + " " + connection.getResponseMessage();
+//                 "Server returned HTTP " + connection.getResponseCode()
+//                        + " " + connection.getResponseMessage();
                 }
 
                 // this will be useful to display download percentage
@@ -424,7 +435,11 @@ public class MainActivity extends AppCompatActivity {
 //                File mydir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 //                File mydir = context.getDir("MediaCenterTech", Context.MODE_PRIVATE);
 //                File mydir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "MediaCenterTech");
-                File mydir = new File(context.getFilesDir(), "MediaCenterTech");
+                File mydir = new File(getApplicationContext().getFilesDir().getAbsolutePath(), "MediaCenterTech");
+
+                if(!mydir.exists()){
+                    mydir.mkdir();
+                }
 
 //                File filcheckname = new File(Environment.getExternalStorageDirectory() + "/MediaCenterTech/" + fileName);
                 File filcheckname = new File(mydir.getAbsolutePath()+ fileName);
@@ -448,25 +463,42 @@ public class MainActivity extends AppCompatActivity {
                 File f2 = new File(mydir, fileName);
                 Log.e("abcdpath1",f2.getAbsolutePath());
                 Log.e("abcdpath2",f2.getPath());
-                output = new FileOutputStream(f2.getAbsolutePath());
+                if (SDK_INT >= Build.VERSION_CODES.O) {
+                    output = Files.newOutputStream(Paths.get(f2.getAbsolutePath()));
+                }else{
+                    output = new FileOutputStream(f2.getAbsolutePath());
+                }
 
-                byte data[] = new byte[4096];
+                byte[] data = new byte[4096];
                 long total = 0;
                 int count;
                 while ((count = input.read(data)) != -1) {
                     // allow canceling with back button
-                    if (isCancelled()) {
-                        input.close();
-                        return null;
-                    }
+//                if (isCancelled()) {
+//                    input.close();
+//                    return null;
+//                }
                     total += count;
                     // publishing the progress....
                     if (fileLength > 0) // only if total length is known
-                        publishProgress((int) (total * 100 / fileLength));
-                    output.write(data, 0, count);
+//                    publishProgress((int) (total * 100 / fileLength));
+
+                        output.write(data, 0, count);
+
+
+                    long finalTotal = total;
+                    runOnUiThread(()->{
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setMax(100);
+                            mProgressDialog.setProgress((int) (finalTotal * 100 / fileLength));
+                        });
+
+
                 }
+                isSuccess.set(true);
             } catch (Exception e) {
-                return e.toString();
+//            return e.toString();
+                e.printStackTrace();
             } finally {
                 try {
                     if (output != null)
@@ -478,7 +510,46 @@ public class MainActivity extends AppCompatActivity {
 
                 if (connection != null)
                     connection.disconnect();
+
+
+                mWakeLock.release();
+                runOnUiThread(()->{
+
+                    mProgressDialog.dismiss();
+                });
+
+//            if (result != null) {
+//                Toast.makeText(context, "Download error: " + result, Toast.LENGTH_LONG).show();
+//                Log.e("abcd ", result);
+//            } else {
+                focus = 2;
+                runOnUiThread(()->{
+                    btnfileexplorer.setEnabled(true);
+                    if(isSuccess.get()) Toast.makeText(MainActivity.this, "File downloaded", Toast.LENGTH_SHORT).show();
+                    relcode.setBackgroundResource(R.drawable.rounded_edittextg);
+                    reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
+                    relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
+                    btnfileexplorer.requestFocus();
+                });
+
+
+//            }
             }
+        });
+
+    }
+
+    private class DownloadTask extends AsyncTask<String, Integer, String> {
+
+        private Context context;
+        private PowerManager.WakeLock mWakeLock;
+
+        public DownloadTask(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected String doInBackground(String... sUrl) {
             return null;
         }
 
@@ -487,39 +558,16 @@ public class MainActivity extends AppCompatActivity {
             super.onPreExecute();
             // take CPU lock to prevent CPU from going off if the user
             // presses the power button during download
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                    getClass().getName());
-            mWakeLock.acquire();
-            mProgressDialog.show();
         }
 
         @Override
         protected void onProgressUpdate(Integer... progress) {
             super.onProgressUpdate(progress);
             // if we get here, length is known, now set indeterminate to false
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setMax(100);
-            mProgressDialog.setProgress(progress[0]);
         }
 
         @Override
         protected void onPostExecute(String result) {
-            mWakeLock.release();
-            mProgressDialog.dismiss();
-            if (result != null) {
-                Toast.makeText(context, "Download error: " + result, Toast.LENGTH_LONG).show();
-                Log.e("abcd ", result);
-            } else {
-                focus = 2;
-                btnfileexplorer.setEnabled(true);
-                Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show();
-                relcode.setBackgroundResource(R.drawable.rounded_edittextg);
-                reldownload.setBackgroundResource(R.drawable.rounded_edittextg);
-                relfileexplorer.setBackgroundResource(R.drawable.rounded_edittextgreen);
-                btnfileexplorer.requestFocus();
-
-            }
         }
     }
 

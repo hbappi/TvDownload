@@ -92,7 +92,13 @@ public class FileExplorerActivity extends AppCompatActivity {
 
 //        File f = new File(Environment.getExternalStorageDirectory() + "/Download/TvDownload/");
         File fl = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+ "/TvDownload");
-        File[] files = fl.listFiles();
+        File mydir = new File(getApplicationContext().getFilesDir().getAbsolutePath(), "MediaCenterTech");
+
+        if(!mydir.exists()){
+            mydir.mkdir();
+        }
+
+        File[] files = mydir.listFiles();
         Log.i("File", String.valueOf(files.length));
 
         for (int i = 0; i < files.length; i++) {
